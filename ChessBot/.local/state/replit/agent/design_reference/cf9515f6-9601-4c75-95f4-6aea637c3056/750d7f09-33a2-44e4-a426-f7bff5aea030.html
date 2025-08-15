@@ -1,0 +1,609 @@
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chess Bot Admin - Interface d'Administration</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'chess-blue': '#2563EB',
+                        'chess-dark': '#1E40AF',
+                        'chess-gold': '#F59E0B',
+                        'chess-navy': '#0F172A',
+                        'chess-gray': '#1E293B'
+                    },
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif']
+                    }
+                }
+            },
+            darkMode: 'class'
+        };
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="font-inter bg-gray-50 dark:bg-chess-navy transition-colors duration-300">
+    <!-- @COMPONENT: ThemeToggle -->
+    <div class="fixed top-4 right-4 z-50">
+        <button id="themeToggle" class="p-2 rounded-lg bg-white dark:bg-chess-gray shadow-lg border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:text-chess-blue dark:hover:text-chess-blue transition-colors">
+            <i class="fas fa-moon dark:hidden"></i>
+            <i class="fas fa-sun hidden dark:inline"></i>
+        </button>
+    </div>
+    <!-- @END_COMPONENT: ThemeToggle -->
+
+    <div class="flex h-screen">
+        <!-- @COMPONENT: Sidebar -->
+        <div class="w-64 bg-white dark:bg-chess-gray shadow-xl border-r border-gray-200 dark:border-gray-700 flex flex-col">
+            <!-- Logo Section -->
+            <div class="p-6 border-b border-gray-200 dark:border-gray-700">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-chess-blue rounded-lg flex items-center justify-center">
+                        <span class="text-white text-xl">♔</span>
+                    </div>
+                    <div>
+                        <h1 class="font-bold text-gray-900 dark:text-white">Chess Bot</h1>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Administration</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation Menu -->
+            <nav class="flex-1 p-4">
+                <ul class="space-y-2">
+                    <li>
+                        <a href="#dashboard" class="flex items-center space-x-3 px-3 py-2 rounded-lg bg-chess-blue text-white font-medium">
+                            <i class="fas fa-chart-line w-5"></i>
+                            <span>Tableau de Bord</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#users" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                            <i class="fas fa-users w-5"></i>
+                            <span>Utilisateurs</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#games" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                            <i class="fas fa-chess-board w-5"></i>
+                            <span>Parties</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#tournaments" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                            <i class="fas fa-trophy w-5"></i>
+                            <span>Tournois</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#rankings" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                            <i class="fas fa-crown w-5"></i>
+                            <span>Classement ELO</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#analytics" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                            <i class="fas fa-chart-pie w-5"></i>
+                            <span>Analyses</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#notifications" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                            <i class="fas fa-bell w-5"></i>
+                            <span>Notifications</span>
+                            <span class="ml-auto bg-chess-gold text-white text-xs px-2 py-1 rounded-full">3</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- Bottom Section -->
+            <div class="p-4 border-t border-gray-200 dark:border-gray-700">
+                <div class="flex items-center space-x-3">
+                    <!-- Modern chess board pattern avatar placeholder -->
+                    <div class="w-8 h-8 bg-gradient-to-br from-chess-blue to-chess-dark rounded-full flex items-center justify-center">
+                        <span class="text-white text-sm font-bold">A</span>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-sm font-medium text-gray-900 dark:text-white" data-bind="admin.name">Admin</p>
+                        <p class="text-xs text-gray-500 dark:text-gray-400">Connecté</p>
+                    </div>
+                    <button class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- @END_COMPONENT: Sidebar -->
+
+        <!-- @COMPONENT: MainContent -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Header -->
+            <header class="bg-white dark:bg-chess-gray shadow-sm border-b border-gray-200 dark:border-gray-700 px-6 py-4">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-900 dark:text-white">Tableau de Bord</h2>
+                        <p class="text-gray-600 dark:text-gray-400">Vue d'ensemble des activités du bot d'échecs</p>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <button class="bg-chess-blue text-white px-4 py-2 rounded-lg hover:bg-chess-dark transition-colors flex items-center space-x-2">
+                            <i class="fas fa-plus"></i>
+                            <span>Nouveau Tournoi</span>
+                        </button>
+                        <div class="relative">
+                            <button class="p-2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 relative">
+                                <i class="fas fa-bell text-xl"></i>
+                                <span class="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main Dashboard Content -->
+            <main class="flex-1 overflow-y-auto p-6">
+                <!-- Stats Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <!-- @MAP: statsCards.map(card => ( -->
+                    <div class="bg-white dark:bg-chess-gray rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Utilisateurs Actifs</p>
+                                <p class="text-3xl font-bold text-gray-900 dark:text-white" data-bind="stats.activeUsers">1,247</p>
+                                <p class="text-sm text-green-600 dark:text-green-400 flex items-center space-x-1">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>+12% ce mois</span>
+                                </p>
+                            </div>
+                            <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-users text-chess-blue text-xl"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white dark:bg-chess-gray rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Parties Jouées</p>
+                                <p class="text-3xl font-bold text-gray-900 dark:text-white" data-bind="stats.gamesPlayed">8,945</p>
+                                <p class="text-sm text-green-600 dark:text-green-400 flex items-center space-x-1">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>+8% ce mois</span>
+                                </p>
+                            </div>
+                            <div class="w-12 h-12 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-chess-board text-green-600 text-xl"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white dark:bg-chess-gray rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Tournois Actifs</p>
+                                <p class="text-3xl font-bold text-gray-900 dark:text-white" data-bind="stats.activeTournaments">12</p>
+                                <p class="text-sm text-yellow-600 dark:text-yellow-400 flex items-center space-x-1">
+                                    <i class="fas fa-clock"></i>
+                                    <span>4 en attente</span>
+                                </p>
+                            </div>
+                            <div class="w-12 h-12 bg-yellow-100 dark:bg-yellow-900 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-trophy text-chess-gold text-xl"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white dark:bg-chess-gray rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-gray-600 dark:text-gray-400">Messages Envoyés</p>
+                                <p class="text-3xl font-bold text-gray-900 dark:text-white" data-bind="stats.messagesSent">45,892</p>
+                                <p class="text-sm text-green-600 dark:text-green-400 flex items-center space-x-1">
+                                    <i class="fas fa-arrow-up"></i>
+                                    <span>+15% ce mois</span>
+                                </p>
+                            </div>
+                            <div class="w-12 h-12 bg-purple-100 dark:bg-purple-900 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-paper-plane text-purple-600 text-xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- @END_MAP )) -->
+                </div>
+
+                <!-- Charts and Tables Grid -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                    <!-- @COMPONENT: ActivityChart -->
+                    <div class="bg-white dark:bg-chess-gray rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Activité des Parties</h3>
+                            <select class="text-sm border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-1 bg-white dark:bg-chess-gray text-gray-700 dark:text-gray-300">
+                                <option>7 derniers jours</option>
+                                <option>30 derniers jours</option>
+                                <option>3 derniers mois</option>
+                            </select>
+                        </div>
+                        <!-- Chart placeholder -->
+                        <div class="h-64 bg-gray-50 dark:bg-gray-800 rounded-lg flex items-center justify-center">
+                            <!-- @FUNCTIONALITY: This should implement a line chart showing game activity over time using Chart.js or similar -->
+                            <div class="text-center">
+                                <div class="w-16 h-16 bg-chess-blue rounded-lg flex items-center justify-center mx-auto mb-4">
+                                    <i class="fas fa-chart-line text-white text-2xl"></i>
+                                </div>
+                                <p class="text-gray-500 dark:text-gray-400">Graphique d'activité des parties</p>
+                                <p class="text-sm text-gray-400 dark:text-gray-500">Chart.js integration requise</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- @END_COMPONENT: ActivityChart -->
+
+                    <!-- @COMPONENT: TopPlayers -->
+                    <div class="bg-white dark:bg-chess-gray rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 p-6">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Top Joueurs ELO</h3>
+                            <button class="text-chess-blue hover:text-chess-dark text-sm font-medium">
+                                Voir tout
+                            </button>
+                        </div>
+                        <div class="space-y-4">
+                            <!-- @MAP: topPlayers.map((player, index) => ( -->
+                            <div class="flex items-center space-x-3">
+                                <div class="flex-shrink-0">
+                                    <div class="w-8 h-8 bg-gradient-to-br from-chess-gold to-yellow-600 rounded-full flex items-center justify-center">
+                                        <span class="text-white text-sm font-bold">1</span>
+                                    </div>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-sm font-medium text-gray-900 dark:text-white" data-bind="player.name">GrandMaître_Fr</p>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400">@grandmaitre_fr</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-sm font-semibold text-gray-900 dark:text-white" data-bind="player.elo">2187</p>
+                                    <p class="text-xs text-green-600 dark:text-green-400">+45</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center space-x-3">
+                                <div class="flex-shrink-0">
+                                    <div class="w-8 h-8 bg-gradient-to-br from-gray-400 to-gray-600 rounded-full flex items-center justify-center">
+                                        <span class="text-white text-sm font-bold">2</span>
+                                    </div>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-sm font-medium text-gray-900 dark:text-white">StrategeParis</p>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400">@stratege_paris</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-sm font-semibold text-gray-900 dark:text-white">2134</p>
+                                    <p class="text-xs text-green-600 dark:text-green-400">+23</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center space-x-3">
+                                <div class="flex-shrink-0">
+                                    <div class="w-8 h-8 bg-gradient-to-br from-orange-400 to-orange-600 rounded-full flex items-center justify-center">
+                                        <span class="text-white text-sm font-bold">3</span>
+                                    </div>
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-sm font-medium text-gray-900 dark:text-white">TactiqueLyon</p>
+                                    <p class="text-xs text-gray-500 dark:text-gray-400">@tactique_lyon</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-sm font-semibold text-gray-900 dark:text-white">2089</p>
+                                    <p class="text-xs text-red-600 dark:text-red-400">-12</p>
+                                </div>
+                            </div>
+                            <!-- @END_MAP )) -->
+                        </div>
+                    </div>
+                    <!-- @END_COMPONENT: TopPlayers -->
+                </div>
+
+                <!-- Recent Games Table -->
+                <!-- @COMPONENT: RecentGamesTable -->
+                <div class="bg-white dark:bg-chess-gray rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                    <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Parties Récentes</h3>
+                            <div class="flex items-center space-x-2">
+                                <button class="px-3 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">
+                                    <i class="fas fa-filter mr-1"></i>
+                                    Filtrer
+                                </button>
+                                <button class="px-3 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">
+                                    <i class="fas fa-download mr-1"></i>
+                                    Export
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead class="bg-gray-50 dark:bg-gray-800">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Joueurs</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Résultat</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Durée</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">ELO Change</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Date</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                                <!-- @MAP: recentGames.map(game => ( -->
+                                <tr class="hover:bg-gray-50 dark:hover:bg-gray-800">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="flex -space-x-2">
+                                                <div class="w-8 h-8 bg-chess-blue rounded-full flex items-center justify-center border-2 border-white dark:border-gray-800">
+                                                    <span class="text-white text-xs font-bold">JM</span>
+                                                </div>
+                                                <div class="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center border-2 border-white dark:border-gray-800">
+                                                    <span class="text-white text-xs font-bold">♔</span>
+                                                </div>
+                                            </div>
+                                            <div class="ml-3">
+                                                <p class="text-sm font-medium text-gray-900 dark:text-white" data-bind="game.players">JeanMarc vs Stockfish</p>
+                                                <p class="text-xs text-gray-500 dark:text-gray-400">Partie classée</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                                            Victoire Joueur
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white" data-bind="game.duration">23m 45s</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="text-sm font-medium text-green-600 dark:text-green-400">+24</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400" data-bind="game.date">Il y a 2h</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm space-x-2">
+                                        <button class="text-chess-blue hover:text-chess-dark" data-event="click:viewGame">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button class="text-green-600 hover:text-green-700" data-event="click:analyzeGame">
+                                            <i class="fas fa-chart-line"></i>
+                                        </button>
+                                        <button class="text-gray-400 hover:text-gray-600" data-event="click:downloadPGN">
+                                            <i class="fas fa-download"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+
+                                <tr class="hover:bg-gray-50 dark:hover:bg-gray-800">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="flex -space-x-2">
+                                                <div class="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center border-2 border-white dark:border-gray-800">
+                                                    <span class="text-white text-xs font-bold">SP</span>
+                                                </div>
+                                                <div class="w-8 h-8 bg-gray-600 rounded-full flex items-center justify-center border-2 border-white dark:border-gray-800">
+                                                    <span class="text-white text-xs font-bold">♔</span>
+                                                </div>
+                                            </div>
+                                            <div class="ml-3">
+                                                <p class="text-sm font-medium text-gray-900 dark:text-white">StrategeParis vs Stockfish</p>
+                                                <p class="text-xs text-gray-500 dark:text-gray-400">Partie classée</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200">
+                                            Défaite
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">31m 12s</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="text-sm font-medium text-red-600 dark:text-red-400">-18</span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">Il y a 3h</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm space-x-2">
+                                        <button class="text-chess-blue hover:text-chess-dark">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                        <button class="text-green-600 hover:text-green-700">
+                                            <i class="fas fa-chart-line"></i>
+                                        </button>
+                                        <button class="text-gray-400 hover:text-gray-600">
+                                            <i class="fas fa-download"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <!-- @END_MAP )) -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="px-6 py-3 border-t border-gray-200 dark:border-gray-700">
+                        <div class="flex items-center justify-between">
+                            <p class="text-sm text-gray-700 dark:text-gray-300">
+                                Affichage de <span class="font-medium">1</span> à <span class="font-medium">10</span> sur <span class="font-medium">247</span> parties
+                            </p>
+                            <div class="flex items-center space-x-2">
+                                <button class="px-3 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 disabled:opacity-50" disabled>
+                                    Précédent
+                                </button>
+                                <button class="px-3 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800">
+                                    Suivant
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- @END_COMPONENT: RecentGamesTable -->
+
+                <!-- Tournament Quick Actions -->
+                <div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- @COMPONENT: TournamentActions -->
+                    <div class="bg-gradient-to-br from-chess-blue to-chess-dark rounded-xl p-6 text-white">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold">Tournois Automatisés</h3>
+                            <i class="fas fa-robot text-2xl opacity-80"></i>
+                        </div>
+                        <p class="text-blue-100 mb-4 text-sm">Configurez des tournois automatiques pour engager vos utilisateurs</p>
+                        <button class="bg-white text-chess-blue px-4 py-2 rounded-lg font-medium hover:bg-gray-100 transition-colors w-full" data-event="click:createAutomatedTournament">
+                            Créer un Tournoi Auto
+                        </button>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-chess-gold to-yellow-600 rounded-xl p-6 text-white">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold">Analyses Avancées</h3>
+                            <i class="fas fa-brain text-2xl opacity-80"></i>
+                        </div>
+                        <p class="text-yellow-100 mb-4 text-sm">Analysez les parties avec des suggestions d'amélioration IA</p>
+                        <button class="bg-white text-yellow-600 px-4 py-2 rounded-lg font-medium hover:bg-gray-100 transition-colors w-full" data-event="click:runAnalysis">
+                            Lancer l'Analyse
+                        </button>
+                    </div>
+
+                    <div class="bg-gradient-to-br from-green-500 to-green-600 rounded-xl p-6 text-white">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-lg font-semibold">Sauvegarde Auto</h3>
+                            <i class="fas fa-shield-alt text-2xl opacity-80"></i>
+                        </div>
+                        <p class="text-green-100 mb-4 text-sm">Système de sauvegarde automatique activé pour toutes les parties</p>
+                        <button class="bg-white text-green-600 px-4 py-2 rounded-lg font-medium hover:bg-gray-100 transition-colors w-full" data-event="click:configureBackup">
+                            Configurer
+                        </button>
+                    </div>
+                    <!-- @END_COMPONENT: TournamentActions -->
+                </div>
+            </main>
+        </div>
+        <!-- @END_COMPONENT: MainContent -->
+    </div>
+
+    <!-- @COMPONENT: NotificationModal -->
+    <div id="notificationModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+        <div class="bg-white dark:bg-chess-gray rounded-xl shadow-2xl p-6 w-full max-w-md mx-4">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Notifications Push</h3>
+                <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="space-y-4">
+                <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                    <div>
+                        <p class="font-medium text-gray-900 dark:text-white">Parties en attente</p>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Notifier les utilisateurs des parties en attente</p>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" checked class="sr-only peer">
+                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                    </label>
+                </div>
+                <div class="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-lg">
+                    <div>
+                        <p class="font-medium text-gray-900 dark:text-white">Nouveaux tournois</p>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Alerter lors de l'ouverture d'inscriptions</p>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" checked class="sr-only peer">
+                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                    </label>
+                </div>
+            </div>
+            <div class="mt-6 flex space-x-3">
+                <button onclick="closeModal()" class="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+                    Annuler
+                </button>
+                <button class="flex-1 px-4 py-2 bg-chess-blue text-white rounded-lg hover:bg-chess-dark transition-colors" data-event="click:saveNotificationSettings">
+                    Sauvegarder
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- @END_COMPONENT: NotificationModal -->
+
+    <script>
+        (function() {
+            // Theme Toggle Functionality
+            const themeToggle = document.getElementById('themeToggle');
+            const htmlElement = document.documentElement;
+            
+            // Check for saved theme preference or default to light mode
+            const currentTheme = localStorage.getItem('theme') || 'light';
+            
+            if (currentTheme === 'dark') {
+                htmlElement.classList.add('dark');
+            }
+            
+            themeToggle.addEventListener('click', function() {
+                htmlElement.classList.toggle('dark');
+                
+                // Save theme preference
+                const isDark = htmlElement.classList.contains('dark');
+                localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            });
+
+            // Modal Functions
+            window.closeModal = function() {
+                document.getElementById('notificationModal').classList.add('hidden');
+            };
+
+            // Navigation Active State Management
+            const navLinks = document.querySelectorAll('nav a[href^="#"]');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remove active class from all links
+                    navLinks.forEach(l => {
+                        l.classList.remove('bg-chess-blue', 'text-white', 'font-medium');
+                        l.classList.add('text-gray-700', 'dark:text-gray-300', 'hover:bg-gray-100', 'dark:hover:bg-gray-800');
+                    });
+                    
+                    // Add active class to clicked link
+                    this.classList.remove('text-gray-700', 'dark:text-gray-300', 'hover:bg-gray-100', 'dark:hover:bg-gray-800');
+                    this.classList.add('bg-chess-blue', 'text-white', 'font-medium');
+                    
+                    // TODO: Implement actual page navigation or content switching
+                });
+            });
+
+            // Notification Bell Click Handler
+            const notificationBell = document.querySelector('.fa-bell').parentElement;
+            notificationBell.addEventListener('click', function() {
+                document.getElementById('notificationModal').classList.remove('hidden');
+            });
+
+            // Auto-refresh stats every 30 seconds
+            setInterval(function() {
+                // TODO: Implement API calls to refresh dashboard stats
+                console.log('Refreshing dashboard stats...');
+            }, 30000);
+
+            // Initialize tooltips for action buttons
+            const actionButtons = document.querySelectorAll('[data-event]');
+            actionButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const event = this.getAttribute('data-event');
+                    console.log('Action triggered:', event);
+                    // TODO: Implement actual event handlers for each action
+                });
+            });
+
+            // Real-time updates simulation
+            // TODO: Replace with actual WebSocket connection for real-time updates
+            function simulateRealTimeUpdates() {
+                const activeUsersElement = document.querySelector('[data-bind="stats.activeUsers"]');
+                if (activeUsersElement) {
+                    const currentValue = parseInt(activeUsersElement.textContent.replace(',', ''));
+                    const randomChange = Math.floor(Math.random() * 10) - 5;
+                    const newValue = Math.max(0, currentValue + randomChange);
+                    activeUsersElement.textContent = newValue.toLocaleString();
+                }
+            }
+
+            setInterval(simulateRealTimeUpdates, 5000);
+        })();
+    </script>
+</body>
+</html>
